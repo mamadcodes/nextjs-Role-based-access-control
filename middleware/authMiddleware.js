@@ -8,9 +8,10 @@ export const withAuth = (handler, requiredRoles) => {
     if(!req.headers.cookie){
       return res.status(403).json({ message: 'Forbidden: Insufficient permissions.' });
     }
-    const token = req.headers.cookie.split('=')[1] // Get JWT Token from cookies
+    const token = await req.headers.cookie.split("token=")[1] // Get JWT Token from cookies
     const decoded = verifyToken(token); // Verify receivet JWT Token
     const userId = decoded.userId // Use verified JWT Token response, to extract user ID
+    
     
     const user = await User.findById(userId);
     

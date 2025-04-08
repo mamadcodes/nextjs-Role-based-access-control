@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       const token = jwt.sign(
         { userId: user._id, username: user.username },
         process.env.JWT_SECRET,
-        { expiresIn: '1h' }
+        { expiresIn: '7d' }
       );
 
       setCookie('token', token, {
@@ -35,10 +35,9 @@ export default async function handler(req, res) {
         res,
         httpOnly: true,
         sameSite: 'strict', // Prevent CSRF attacks
-        maxAge: 60 * 60, // 1 Hour in seconds
+        maxAge: 7 * 24 * 60 * 60, // 7 Days in seconds
         path: '/', // Available for all routes
       });
-
 
       res.status(200).json({ token, message: 'Login successful' });
     } catch (error) {
